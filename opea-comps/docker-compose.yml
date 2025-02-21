@@ -1,0 +1,23 @@
+version: "3.9" 
+services:
+  ollama-server:
+    image: ollama/ollama
+    container_name: ollama-server
+    ports:
+      - ${LLM_ENDPOINT_PORT:-8008}:11434 
+    environment:
+      no_proxy: ${no_proxy}
+      http_proxy: ${http_proxy}
+      https_proxy: ${https_proxy}
+      LLM_MODEL_ID: ${LLM_MODEL_ID} 
+      host_ip: ${host_ip} 
+    volumes: 
+      - ollama_models:/models
+    command: ollama run deepseek-coder:1.15b
+
+volumes:
+  ollama_models:
+
+networks:
+  default:
+    driver: bridge
